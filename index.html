@@ -1,0 +1,94 @@
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic,900" rel="stylesheet" type="text/css">
+<style>
+	body{
+		font-family: Lato;
+		padding: 20px
+	}
+	#legend{
+		width: 200px;
+		margin-top: 50px;
+		font-size: 14px;
+		border: 1px solid black;
+		padding: 17px;
+	}
+	#legendTitle{
+    	font-weight: bold;
+    	margin-bottom: 10px;
+	}
+	.exampleText{
+		width: fit-content;
+		margin-bottom: 5px;
+	}
+	#label{
+		font-weight: bold;
+		display: inline-block;
+	}
+	#inputField{
+		display: inline-block;
+	}
+	.char{
+		font-size: 38px;
+		display: inline-block;
+		margin-right: 4px;
+	}
+	.numeric{
+		color: #db2b27;
+		border-bottom: 2px solid #db2b27;
+	}
+	.lc{
+		color: black;
+		border-bottom: 2px dashed black;
+	}
+	.uc{
+		color: black;
+		border-bottom: 2px dotted black;
+	}
+	.neither{
+		color: #9d9d9d;
+	}
+
+</style>
+</head>
+<body>
+
+	<div id = "label">Enter test text:</div>
+	
+	<input id = "inputField"/>
+	<div id = "outputField">
+	</div>
+
+	<div id = "legend">
+		<div id = "legendTitle">Legend</div>
+		<div class = "exampleText numeric">Numeric character</div>
+		<div class = "exampleText lc">Lower case alpha character</div>
+		<div class = "exampleText uc">Upper case alpha character</div>
+		<div class = "exampleText neither">Non alphanumeric character</div>
+	</div>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+d3.select("#inputField")
+	.on("input", function(){
+		var inString = this.value
+		var charArray = Array.from(inString)
+
+		d3.selectAll(".char").remove()
+
+		d3.select("#outputField")
+			.selectAll(".char")
+			.data(charArray)
+			.enter().append("div")
+			.attr("class", function(d){
+				if(/\d/.test(d)) return "char numeric"
+				else if(/[A-Z]/.test(d)) return "char uc"
+				else if(/[a-z]/.test(d)) return "char lc"
+				else return "char neither"
+			})
+			.text(function(d){ return d })
+
+	})
+</script>
+</body>
+</html>
